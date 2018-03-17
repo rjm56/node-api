@@ -1,16 +1,14 @@
-"use strict";
+import mongoose from "mongoose";
+const Task = mongoose.model("Task");
 
-var mongoose = require("mongoose");
-var Task = mongoose.model("Task");
-
-exports.list_all_tasks = function (req, res) {
+export const list_all_tasks = function (req, res) {
   Task.find({}, function (err, task) {
     if (err) res.send(err);
     res.json(task);
   });
 };
 
-exports.create_a_task = function (req, res) {
+export const create_a_task = function (req, res) {
   var new_task = new Task(req.body);
   new_task.save(function (err, task) {
     if (err) res.send(err);
@@ -18,14 +16,14 @@ exports.create_a_task = function (req, res) {
   });
 };
 
-exports.read_a_task = function (req, res) {
+export const read_a_task = function (req, res) {
   Task.findById(req.params.taskId, function (err, task) {
     if (err) res.send(err);
     res.json(task);
   });
 };
 
-exports.update_a_task = function (req, res) {
+export const update_a_task = function (req, res) {
   Task.findOneAndUpdate(
     { _id: req.params.taskId },
     req.body,
@@ -37,7 +35,7 @@ exports.update_a_task = function (req, res) {
   );
 };
 
-exports.delete_a_task = function (req, res) {
+export const delete_a_task = function (req, res) {
   Task.remove(
     {
       _id: req.params.taskId
