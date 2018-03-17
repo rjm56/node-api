@@ -1,11 +1,12 @@
-var express = require("express"),
-  app = express(),
-  port = process.env.PORT || 3000;
-mongoose = require("mongoose");
-Task = require("./api/models/todoListModel");
-bodyParser = require("body-parser");
-dotenv = require('dotenv');
+import express from "express"
+import mongoose from "mongoose";
+import Task from "./models/todoListModel";
+import bodyParser from "body-parser";
+import dotenv from 'dotenv';
+import { Routes } from './routes/todoListRoutes';
 
+const app = express();
+const port = process.env.PORT || 3000;
 dotenv.config();
 
 //Connect database by adding url to Mongoose instance connection
@@ -17,8 +18,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //Register routes
-var routes = require("./api/routes/todoListRoutes");
-routes(app);
+let router = express.Router();
+Routes(router);
+app.use('/', router);
 
 app.listen(port);
 
